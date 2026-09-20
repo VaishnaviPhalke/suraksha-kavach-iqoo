@@ -1,0 +1,9 @@
+{
+  "name": "suraksha-kavach-laptop-sentinel-console",
+  "version": "1.0.0",
+  "description": "Desktop Sentinel Console for iQOO Office Kit Air-Gapped Sync",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

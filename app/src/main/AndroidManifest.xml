@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Suraksha Kavach (सुरक्षा कवच)
+    100% Air-Gapped & On-Device Security Prototype
+    
+    CRITICAL ARCHITECTURE PRINCIPLE:
+    android.permission.INTERNET is STRICTLY EXCLUDED.
+    This guarantees zero outbound network requests and true air-gapped isolation.
+    All inference, threat detection, and key management execute directly on-device
+    via the Snapdragon NPU and Android Hardware KeyStore (HWID).
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 3-Factor Multi-Modal Verification Permissions (All Evaluated Locally) -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Hands-Free On-Device Voice Sentinel (Local Speech Recognizer & TTS) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- iQOO Office Kit Local USB / Wi-Fi Direct Tunnel -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- Hardware Camera Feature requirement -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.fingerprint" android:required="false" />
+
+    <application
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SurakshaKavach">
+        
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SurakshaKavach"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

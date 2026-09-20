@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suraksha Kavach - 70% Functional Air-Gapped Security Prototype</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: #F4EFEA;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Pulse glow */
+    @keyframes pulseSafe {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.35); opacity: 0.3; }
+    }
+    .pulse-dot {
+      animation: pulseSafe 2s infinite ease-in-out;
+    }
+    /* Waveform bars */
+    @keyframes soundWave {
+      0%, 100% { height: 8px; }
+      50% { height: 28px; }
+    }
+    .wave-bar-1 { animation: soundWave 0.6s infinite ease-in-out; }
+    .wave-bar-2 { animation: soundWave 0.45s infinite ease-in-out 0.15s; }
+    .wave-bar-3 { animation: soundWave 0.7s infinite ease-in-out 0.3s; }
+    .wave-bar-4 { animation: soundWave 0.5s infinite ease-in-out 0.2s; }
+    /* Laser Scan Line */
+    @keyframes scanLaser {
+      0% { top: 10%; opacity: 0.2; }
+      50% { top: 85%; opacity: 1; }
+      100% { top: 10%; opacity: 0.2; }
+    }
+    .scan-laser {
+      animation: scanLaser 1.8s infinite linear;
+    }
+    /* Smooth 20px card shape */
+    .card-20 {
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04), 0 1px 3px -1px rgba(0, 0, 0, 0.02);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen text-[#1E293B] antialiased flex flex-col items-center justify-center p-2 sm:p-6">
+
+  <!-- TOP APP BANNER / CONTROLS -->
+  <header class="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-3 mb-5 px-2">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 rounded-2xl bg-[#ECFDF5] border border-[#10B981]/30 flex items-center justify-center text-[#10B981] font-bold text-xl shadow-sm">
+        🛡️
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-xl font-bold text-[#1E293B] tracking-tight">Suraksha Kavach (सुरक्षा कवच)</h1>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#ECFDF5] text-[#10B981] border border-[#10B981]/30">~70% COMPLETE APP ARCHITECTURE</span>
+        </div>
+        <p class="text-xs text-[#64748B]">Real Hardware KeyStore AES-256-GCM • BiometricPrompt • Real TTS • iQOO Office Kit Tunnel (Port 8888)</p>
+      </div>
+    </div>
+
+    <!-- Quick Actions Bar -->
+    <div class="flex items-center gap-2">
+      <button onclick="openConsoleModal()" class="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#1E293B] hover:bg-[#F8FAFC] shadow-sm flex items-center gap-1.5 transition">
+        <span>💻</span> View Laptop Console (Port 8888)
+      </button>
+      <button onclick="openWalkthroughModal()" class="px-3.5 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#1E293B] hover:bg-[#F8FAFC] shadow-sm flex items-center gap-1.5 transition">
+        <span>🎬</span> 60–90s Video Script
+      </button>
+      <button onclick="openArchitectureModal()" class="px-3.5 py-1.5 rounded-xl bg-[#6366F1] text-white text-xs font-semibold hover:bg-[#4F46E5] shadow-sm flex items-center gap-1.5 transition">
+        <span>📂</span> Codebase
+      </button>
+    </div>
+  </header>
+
+  <!-- PHONE CONTAINER SIMULATION -->
+  <div class="relative w-full max-w-[412px] h-[870px] bg-[#FDFBF7] rounded-[48px] shadow-2xl border-[10px] border-[#1E293B] flex flex-col overflow-hidden ring-1 ring-black/10">
+    
+    <!-- PHONE STATUS BAR (AIRPLANE MODE DEMONSTRATION) -->
+    <div class="h-11 px-7 pt-3 flex items-center justify-between bg-[#FDFBF7] text-[#1E293B] select-none z-20">
+      <div class="text-xs font-bold tracking-tight" id="phone-clock">14:38</div>
+      <!-- Center Camera Notch Pill -->
+      <div class="w-20 h-4 bg-[#1E293B] rounded-full mx-auto"></div>
+      <!-- Right Status Icons: Airplane mode + Battery -->
+      <div class="flex items-center gap-2 text-xs">
+        <span class="text-xs font-bold text-[#10B981]" title="Airplane Mode Enforced (0 Outbound Sockets)">✈️</span>
+        <span class="text-[10px] font-semibold text-[#64748B]">NPU</span>
+        <span class="text-xs font-bold">100%</span>
+      </div>
+    </div>
+
+    <!-- PERSISTENT HERO BADGE (ACROSS ALL SCREENS) -->
+    <div class="px-4 pt-2 pb-1 bg-[#FDFBF7] z-10">
+      <div class="p-2.5 rounded-2xl bg-[#ECFDF5] border border-[#10B981]/30 flex items-center justify-between shadow-xs">
+        <div class="flex items-center gap-2.5">
+          <div class="relative flex items-center justify-center">
+            <span class="pulse-dot absolute w-3.5 h-3.5 rounded-full bg-[#10B981]/40"></span>
+            <span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold text-[#1E293B] flex items-center gap-1">
+                <span>✈️</span> Air-Gapped | 0 Outbound Requests
+              </span>
+            </div>
+            <p class="text-[10px] text-[#64748B]">Zero Cloud Dependency • HW Keystore Active</p>
+          </div>
+        </div>
+        <div class="px-2 py-0.5 rounded-full bg-[#EEF2FF] border border-[#6366F1]/30 text-[10px] font-semibold text-[#6366F1] flex items-center gap-1">
+          <span>⚡</span> NPU Active
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREENS VIEWPORT (SCROLLABLE) -->
+    <main class="flex-1 overflow-y-auto no-scrollbar px-4 pt-2 pb-24 space-y-3.5">
+      
+      <!-- ================= SCREEN 1: DASHBOARD ("MY SHIELD") ================= -->
+      <div id="screen-dashboard" class="space-y-3.5 animate-fadeIn">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-extrabold text-[#1E293B] tracking-tight">My Shield</h2>
+            <p class="text-xs text-[#64748B]">Air-gapped on-device protection • Zero cloud telemetry</p>
+          </div>
+          <button onclick="openEncryptModal()" class="px-3 py-1.5 rounded-xl bg-[#10B981] text-white text-xs font-bold shadow-xs hover:bg-[#059669] flex items-center gap-1 transition">
+            <span>+</span> Lock File
+          </button>
+        </div>
+
+        <!-- Quick Health Score Card -->
+        <div class="card-20 p-4 border-[#10B981]/30">
+          <div class="flex items-center justify-between">
+            <div class="space-y-1">
+              <div class="flex items-center gap-1.5 text-[#10B981] text-[11px] font-bold uppercase tracking-wider">
+                <span>🛡️</span> SYSTEM HEALTH: 98/100
+              </div>
+              <h3 class="text-base font-bold text-[#1E293B]">Shield Robust & Isolated</h3>
+              <p class="text-xs text-[#64748B] leading-relaxed max-w-[210px]">Hardware KeyStore active • Radio bus powered down • StrongBox root verified.</p>
+            </div>
+            <div class="w-16 h-16 rounded-full bg-[#ECFDF5] border-2 border-[#10B981] flex flex-col items-center justify-center shadow-inner">
+              <span class="text-lg font-extrabold text-[#10B981]">98%</span>
+              <span class="text-[8px] font-bold text-[#10B981] tracking-wider">SAFE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Snapdragon NPU Metrics Card -->
+        <div class="card-20 p-3.5 border-[#6366F1]/25">
+          <div class="flex items-center justify-between mb-2.5">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-[#EEF2FF] flex items-center justify-center text-[#6366F1] text-sm">🧠</div>
+              <div>
+                <span class="text-[9px] font-bold text-[#6366F1] uppercase tracking-wider">SNAPDRAGON NPU SENTINEL</span>
+                <h4 class="text-xs font-bold text-[#1E293B]">On-Device Neural Engine</h4>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#10B981] text-[10px] font-bold">Risk: 0.02 (Low)</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 pt-2 border-t border-[#F1F5F9] text-center">
+            <div>
+              <div class="text-[9px] text-[#64748B]">LATENCY</div>
+              <div class="text-xs font-bold text-[#6366F1]">0.02 ms</div>
+            </div>
+            <div>
+              <div class="text-[9px] text-[#64748B]">WEIGHTS</div>
+              <div class="text-xs font-bold text-[#1E293B]">Int8 Quantized</div>
+            </div>
+            <div>
+              <div class="text-[9px] text-[#64748B]">OUTBOUND</div>
+              <div class="text-xs font-bold text-[#10B981]">0 (Airgap)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hardware Encryption Vault Header -->
+        <div class="flex items-center justify-between pt-1">
+          <div>
+            <h3 class="text-sm font-bold text-[#1E293B]">Hardware Encryption Vault</h3>
+            <p class="text-[11px] text-[#64748B]">AES-256-GCM bound to Hardware KeyStore (HWID)</p>
+          </div>
+          <span id="vault-count-badge" class="px-2 py-0.5 rounded-lg bg-[#F8FAFC] text-[10px] font-bold text-[#1E293B] border border-[#E2E8F0]">3 Protected Files</span>
+        </div>
+
+        <!-- Vault Items -->
+        <div class="space-y-2.5" id="vault-items-container">
+          <!-- Item 1 -->
+          <div class="card-20 p-3.5 transition-all" id="vault-card-1">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div id="vault-icon-1" class="w-9 h-9 rounded-xl bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-sm font-bold">
+                  🔒
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-[#1E293B]">defense_cad_blueprints.enc</div>
+                  <div class="text-[10px] text-[#64748B] flex items-center gap-1.5">
+                    <span>48.2 MB</span> • <span class="text-[#6366F1] font-medium">HWKEY_SEC_9921_A</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="toggleVaultItem(1)" class="w-8 h-8 rounded-full bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#ECFDF5] hover:text-[#10B981] flex items-center justify-center text-xs transition">
+                🔑
+              </button>
+            </div>
+            <div id="vault-preview-1" class="hidden mt-2.5 p-2 rounded-xl bg-[#ECFDF5] border border-[#10B981]/25 text-[11px] text-[#1E293B]">
+              <span class="text-[9px] font-bold text-[#10B981] uppercase block mb-0.5">Decrypted in Isolated Volatile RAM:</span>
+              Vector schematics v4.19.0 verified. Checksum SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855. Zero storage bleed.
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="card-20 p-3.5 transition-all" id="vault-card-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div id="vault-icon-2" class="w-9 h-9 rounded-xl bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-sm font-bold">
+                  🔒
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-[#1E293B]">command_keys.sec</div>
+                  <div class="text-[10px] text-[#64748B] flex items-center gap-1.5">
+                    <span>4.1 KB</span> • <span class="text-[#6366F1] font-medium">HWKEY_STRONGBOX_01</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="toggleVaultItem(2)" class="w-8 h-8 rounded-full bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#ECFDF5] hover:text-[#10B981] flex items-center justify-center text-xs transition">
+                🔑
+              </button>
+            </div>
+            <div id="vault-preview-2" class="hidden mt-2.5 p-2 rounded-xl bg-[#ECFDF5] border border-[#10B981]/25 text-[11px] text-[#1E293B]">
+              <span class="text-[9px] font-bold text-[#10B981] uppercase block mb-0.5">Decrypted in Isolated Volatile RAM:</span>
+              RSA-4096 / Ed25519 root master tokens. StrongBox hardware keymaster authorization valid.
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="card-20 p-3.5 transition-all" id="vault-card-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div id="vault-icon-3" class="w-9 h-9 rounded-xl bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-sm font-bold">
+                  🔒
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-[#1E293B]">field_personnel_roster.vault</div>
+                  <div class="text-[10px] text-[#64748B] flex items-center gap-1.5">
+                    <span>1.8 MB</span> • <span class="text-[#6366F1] font-medium">HWKEY_SEC_9921_B</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="toggleVaultItem(3)" class="w-8 h-8 rounded-full bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#ECFDF5] hover:text-[#10B981] flex items-center justify-center text-xs transition">
+                🔑
+              </button>
+            </div>
+            <div id="vault-preview-3" class="hidden mt-2.5 p-2 rounded-xl bg-[#ECFDF5] border border-[#10B981]/25 text-[11px] text-[#1E293B]">
+              <span class="text-[9px] font-bold text-[#10B981] uppercase block mb-0.5">Decrypted in Isolated Volatile RAM:</span>
+              124 personnel tactical credentials cached in local SQLCipher store.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SCREEN 2: ACCESS CONTROL & VERIFICATION GATE ================= -->
+      <div id="screen-access-gate" class="space-y-3.5 hidden animate-fadeIn">
+        <div>
+          <h2 class="text-2xl font-extrabold text-[#1E293B] tracking-tight">Access Control Gate</h2>
+          <p class="text-xs text-[#64748B]">3-Factor multi-modal identity verification • Evaluated 100% offline</p>
+        </div>
+
+        <!-- Summary Status -->
+        <div id="gate-summary-card" class="card-20 p-4 border-[#6366F1]/30">
+          <div class="flex items-center justify-between">
+            <div>
+              <span id="gate-progress-tag" class="text-[10px] font-bold text-[#6366F1] uppercase tracking-wider">VERIFICATION PROGRESS (0 OF 3)</span>
+              <h3 id="gate-progress-title" class="text-sm font-bold text-[#1E293B]">Complete all 3 factors to unlock</h3>
+              <p class="text-[11px] text-[#64748B]">Air-gapped session expires after 15 min of inactivity.</p>
+            </div>
+            <div id="gate-lock-icon" class="w-10 h-10 rounded-full bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-lg">
+              🔒
+            </div>
+          </div>
+        </div>
+
+        <!-- Factor 1: Camera Recipient QR Scan -->
+        <div id="step-card-1" class="card-20 p-3.5 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-base">📷</div>
+              <div>
+                <span class="text-[10px] font-bold text-[#6366F1] uppercase">FACTOR 01 • CAMERA QR SCAN</span>
+                <h4 class="text-xs font-bold text-[#1E293B]">Optical Asymmetric Verification Key</h4>
+              </div>
+            </div>
+            <span id="step-badge-1" class="px-2 py-0.5 rounded-full bg-[#F1F5F9] text-[#64748B] text-[10px] font-bold">Pending</span>
+          </div>
+
+          <!-- CameraX Simulated Viewfinder -->
+          <div class="relative w-full h-28 rounded-xl bg-[#0F172A] flex items-center justify-center overflow-hidden border border-black/20">
+            <div class="relative w-20 h-20 rounded-lg border-2 border-dashed border-[#6366F1] flex items-center justify-center">
+              <div id="laser-line" class="hidden scan-laser absolute left-0 right-0 h-0.5 bg-[#10B981] shadow-[0_0_8px_#10B981]"></div>
+              <span class="text-2xl text-white/50">⛶</span>
+            </div>
+            <span class="absolute bottom-1.5 text-[9px] text-white/70 bg-black/50 px-2 py-0.5 rounded-md">CameraX Isolated Framebuffer • No Cloud</span>
+          </div>
+
+          <button id="btn-factor-1" onclick="verifyFactor(1)" class="w-full py-2.5 rounded-xl bg-[#6366F1] text-white text-xs font-semibold hover:bg-[#4F46E5] transition shadow-xs">
+            Start CameraX QR Scan
+          </button>
+        </div>
+
+        <!-- Factor 2: Biometric Authentication -->
+        <div id="step-card-2" class="card-20 p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-base">👆</div>
+              <div>
+                <span class="text-[10px] font-bold text-[#6366F1] uppercase">FACTOR 02 • BIOMETRICS</span>
+                <h4 class="text-xs font-bold text-[#1E293B]">StrongBox Android BiometricPrompt</h4>
+              </div>
+            </div>
+            <span id="step-badge-2" class="px-2 py-0.5 rounded-full bg-[#F1F5F9] text-[#64748B] text-[10px] font-bold">Pending</span>
+          </div>
+          <p class="text-[11px] text-[#64748B]">Native BiometricPrompt triggers hardware fingerprint or face sensor releasing AES token.</p>
+          <button id="btn-factor-2" onclick="verifyFactor(2)" class="w-full py-2.5 rounded-xl bg-[#6366F1] text-white text-xs font-semibold hover:bg-[#4F46E5] transition shadow-xs">
+            Scan Fingerprint (BiometricPrompt)
+          </button>
+        </div>
+
+        <!-- Factor 3: Geo-Fence Validation -->
+        <div id="step-card-3" class="card-20 p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-base">📍</div>
+              <div>
+                <span class="text-[10px] font-bold text-[#6366F1] uppercase">FACTOR 03 • GEO-FENCE</span>
+                <h4 class="text-xs font-bold text-[#1E293B]">Haversine GPS Boundary Check</h4>
+              </div>
+            </div>
+            <span id="step-badge-3" class="px-2 py-0.5 rounded-full bg-[#F1F5F9] text-[#64748B] text-[10px] font-bold">Pending</span>
+          </div>
+          <div class="p-2 rounded-xl bg-[#F8FAFC] text-[11px] text-[#64748B] space-y-0.5">
+            <div class="flex justify-between"><span>Authorized Bunker Radius:</span> <span class="font-bold text-[#1E293B]">50.0 meters</span></div>
+            <div class="flex justify-between"><span>Current Distance (Haversine):</span> <span class="font-bold text-[#10B981]">8.4 m inside safe zone</span></div>
+          </div>
+          <button id="btn-factor-3" onclick="verifyFactor(3)" class="w-full py-2.5 rounded-xl bg-[#6366F1] text-white text-xs font-semibold hover:bg-[#4F46E5] transition shadow-xs">
+            Compute Haversine Perimeter
+          </button>
+        </div>
+
+        <button onclick="resetAccessGate()" class="w-full py-2 text-xs font-medium text-[#64748B] hover:text-[#1E293B] transition">
+          ↺ Reset Access Gate
+        </button>
+      </div>
+
+      <!-- ================= SCREEN 3: AI THREAT SENTINEL ================= -->
+      <div id="screen-sentinel" class="space-y-3.5 hidden animate-fadeIn">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-extrabold text-[#1E293B] tracking-tight">AI Threat Sentinel</h2>
+            <p class="text-xs text-[#64748B]">Snapdragon NPU on-device reasoning • Local anomaly detection</p>
+          </div>
+          <button onclick="playTTSPrompt()" class="p-2 rounded-full bg-[#FEF3C7] text-[#F59E0B] border border-[#F59E0B]/30 hover:scale-105 transition" title="Speak Voice Alert Aloud">
+            🔊
+          </button>
+        </div>
+
+        <!-- Visual Risk Score Meter (Exact 0.02 as requested) -->
+        <div class="card-20 p-4">
+          <div class="flex items-center justify-between">
+            <div class="relative w-24 h-24 flex items-center justify-center">
+              <svg class="w-24 h-24 -rotate-90 transform" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="42" stroke="#F1F5F9" stroke-width="9" fill="transparent" />
+                <circle cx="50" cy="50" r="42" stroke="#10B981" stroke-width="9" stroke-dasharray="264" stroke-dashoffset="256" stroke-linecap="round" fill="transparent" />
+              </svg>
+              <div class="absolute flex flex-col items-center">
+                <span class="text-2xl font-extrabold text-[#1E293B]" id="main-risk-score">0.02</span>
+                <span class="text-[8px] font-bold text-[#64748B] tracking-wider">SCORE</span>
+              </div>
+            </div>
+
+            <div class="flex-1 ml-4 space-y-1">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+                <h3 class="text-sm font-bold text-[#1E293B]">Risk Level: Low (Safe)</h3>
+              </div>
+              <p class="text-[11px] text-[#64748B] leading-relaxed">Dynamic sensory evaluation via Snapdragon NPU. 0 cloud telemetry.</p>
+              <div class="pt-1">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#EEF2FF] text-[#6366F1] text-[10px] font-medium">
+                  <span>⚡</span> DeepSeek-1.5B (Quantized Int8)
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hands-Free Voice Alerts & Revocation Card -->
+        <div id="voice-card" class="card-20 p-4 border-[#F59E0B]/40 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-full bg-[#FEF3C7] text-[#F59E0B] flex items-center justify-center text-lg">🗣️</div>
+              <div>
+                <span class="text-[10px] font-bold text-[#F59E0B] uppercase tracking-wider">HANDS-FREE SENTINEL</span>
+                <h4 class="text-xs font-bold text-[#1E293B]">Voice Alerts & Revocation</h4>
+              </div>
+            </div>
+
+            <!-- Waveform Animation -->
+            <div class="flex items-end gap-1 h-6 px-2 py-1 bg-[#F8FAFC] rounded-lg">
+              <div class="w-1 bg-[#F59E0B] rounded-full wave-bar-1"></div>
+              <div class="w-1 bg-[#F59E0B] rounded-full wave-bar-2"></div>
+              <div class="w-1 bg-[#F59E0B] rounded-full wave-bar-3"></div>
+              <div class="w-1 bg-[#F59E0B] rounded-full wave-bar-4"></div>
+            </div>
+          </div>
+
+          <!-- TTS Prompt Bubble -->
+          <div id="voice-bubble" class="p-3 rounded-xl bg-[#FEF3C7]/60 border border-[#F59E0B]/30 flex items-center gap-2.5">
+            <button onclick="playTTSPrompt()" class="w-8 h-8 rounded-full bg-[#F59E0B] text-white flex items-center justify-center text-xs shadow-xs hover:scale-105 transition" title="Listen to TTS">
+              🔊
+            </button>
+            <div class="flex-1">
+              <span id="voice-bubble-label" class="text-[10px] font-bold text-[#64748B] block">Real Android TTS Audio (Tap 🔊 to test):</span>
+              <span id="voice-bubble-text" class="text-xs font-semibold text-[#1E293B]">"Unusual access detected. Confirm or Revoke?"</span>
+            </div>
+          </div>
+
+          <!-- Action Triggers -->
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="confirmVoiceAction()" class="py-2.5 rounded-xl bg-[#10B981] text-white text-xs font-semibold hover:bg-[#059669] flex items-center justify-center gap-1.5 transition shadow-xs">
+              <span>✓</span> Confirm Identity
+            </button>
+            <button onclick="revokeVoiceAction()" class="py-2.5 rounded-xl bg-[#F43F5E] text-white text-xs font-semibold hover:bg-[#E11D48] flex items-center justify-center gap-1.5 transition shadow-xs">
+              <span>⊘</span> Revoke Token
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Local NPU Anomaly Logs -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between pt-1">
+            <div>
+              <h3 class="text-sm font-bold text-[#1E293B]">Live NPU Anomaly Detection</h3>
+              <p class="text-[11px] text-[#64748B]">Real-time hardware integrity monitors</p>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#10B981] text-[10px] font-bold">Hardware Safe</span>
+          </div>
+
+          <div class="card-20 p-3 space-y-1">
+            <div class="flex items-center justify-between text-xs font-bold text-[#1E293B]">
+              <span class="flex items-center gap-1.5"><span class="text-[#10B981]">✓</span> Acoustic Side-Channel Monitor</span>
+              <span class="text-[10px] text-[#10B981] font-bold">Nominal</span>
+            </div>
+            <p class="text-[11px] text-[#64748B]">Microphone frequency spectrum within ambient baseline. Zero keystroke leakage.</p>
+          </div>
+
+          <div class="card-20 p-3 space-y-1">
+            <div class="flex items-center justify-between text-xs font-bold text-[#1E293B]">
+              <span class="flex items-center gap-1.5"><span class="text-[#10B981]">✓</span> DMA Memory Integrity (IOMMU)</span>
+              <span class="text-[10px] text-[#10B981] font-bold">Clean</span>
+            </div>
+            <p class="text-[11px] text-[#64748B]">Hardware IOMMU registers locked. Zero unauthorized physical memory probes.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SCREEN 4: iQOO OFFICE KIT SYNC BRIDGE & AUDIT ================= -->
+      <div id="screen-sync" class="space-y-3.5 hidden animate-fadeIn">
+        <div>
+          <h2 class="text-2xl font-extrabold text-[#1E293B] tracking-tight">Sync Bridge & Audit</h2>
+          <p class="text-xs text-[#64748B]">Direct hardware sync to Laptop Sentinel Console • SQLCipher encrypted logs</p>
+        </div>
+
+        <!-- iQOO Office Kit Sentinel Tunnel Card -->
+        <div class="card-20 p-4 border-[#6366F1]/35 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div id="sync-medium-icon" class="w-10 h-10 rounded-xl bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-lg">
+                🔌
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-[#6366F1] uppercase tracking-wider">AIR-GAPPED HARDWARE LINK</span>
+                <!-- EXPLICIT REQUIREMENT -->
+                <h3 class="text-sm font-bold text-[#1E293B]">iQOO Office Kit Sentinel Tunnel</h3>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#10B981] text-[10px] font-bold">Port 8888 Active</span>
+          </div>
+
+          <!-- Connection Target Info -->
+          <div class="p-2.5 rounded-xl bg-[#F8FAFC] text-[11px] space-y-0.5">
+            <div class="font-bold text-[#1E293B] flex items-center gap-1.5">
+              <span>💻</span> Embedded Server: http://localhost:8888
+            </div>
+            <div class="text-[#64748B]">USB reverse socket via 'adb reverse tcp:8888 tcp:8888'. Zero internet required.</div>
+          </div>
+
+          <!-- Telemetry Grid -->
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="p-2 rounded-xl bg-[#F8FAFC]">
+              <div class="text-[8px] text-[#64748B] font-bold">PHY SPEED</div>
+              <div class="text-xs font-bold text-[#1E293B]" id="sync-speed">480 Mbps</div>
+              <div class="text-[8px] text-[#64748B]" id="sync-medium-label">USB 3.2 Gen 2</div>
+            </div>
+            <div class="p-2 rounded-xl bg-[#F8FAFC]">
+              <div class="text-[8px] text-[#64748B] font-bold">PACKETS SYNCED</div>
+              <div class="text-xs font-bold text-[#10B981]" id="sync-packets">14,280</div>
+              <div class="text-[8px] text-[#10B981]">0 Dropped</div>
+            </div>
+            <div class="p-2 rounded-xl bg-[#F8FAFC]">
+              <div class="text-[8px] text-[#64748B] font-bold">LATENCY</div>
+              <div class="text-xs font-bold text-[#1E293B]">1.2 ms</div>
+              <div class="text-[8px] text-[#64748B]">Direct DMA</div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="toggleSyncMedium()" class="py-2.5 rounded-xl bg-white border border-[#E2E8F0] text-xs font-semibold text-[#1E293B] hover:bg-[#F8FAFC] transition">
+              <span id="btn-toggle-label">Switch to Wi-Fi Direct</span>
+            </button>
+            <button onclick="openConsoleModal()" class="py-2.5 rounded-xl bg-[#6366F1] text-white text-xs font-semibold hover:bg-[#4F46E5] flex items-center justify-center gap-1 transition">
+              <span>🖥️</span> Open Laptop View
+            </button>
+          </div>
+        </div>
+
+        <!-- Tamper-Proof Audit Trail Header -->
+        <div class="flex items-center justify-between pt-1">
+          <div>
+            <h3 class="text-sm font-bold text-[#1E293B]">Tamper-Proof Audit Trail</h3>
+            <p class="text-[11px] text-[#64748B]">Cryptographic SHA-256 hash-chain SQLite ledger</p>
+          </div>
+          <span class="px-2 py-0.5 rounded-lg bg-[#ECFDF5] text-[10px] font-bold text-[#10B981] border border-[#10B981]/25">Chain Sealed</span>
+        </div>
+
+        <!-- Audit Log Items -->
+        <div class="space-y-2" id="audit-log-list">
+          <div class="card-20 p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-[#ECFDF5] text-[#10B981] flex items-center justify-center text-xs">🔑</div>
+              <div>
+                <div class="text-xs font-bold text-[#1E293B]">AIR_GAP_CHECK <span class="text-[10px] font-normal text-[#64748B]">14:21:05</span></div>
+                <div class="text-[11px] text-[#64748B]">Hardware bus isolation verified. 0 outbound requests.</div>
+                <div class="text-[10px] font-medium text-[#6366F1] mono">SHA-256: 9f83...4a12</div>
+              </div>
+            </div>
+            <span class="px-1.5 py-0.5 rounded bg-[#ECFDF5] text-[#10B981] text-[9px] font-bold">SEALED</span>
+          </div>
+
+          <div class="card-20 p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-[#ECFDF5] text-[#10B981] flex items-center justify-center text-xs">🔑</div>
+              <div>
+                <div class="text-xs font-bold text-[#1E293B]">NPU_INFERENCE <span class="text-[10px] font-normal text-[#64748B]">14:19:40</span></div>
+                <div class="text-[11px] text-[#64748B]">Snapdragon NPU risk computed. Score: 0.02 (Low).</div>
+                <div class="text-[10px] font-medium text-[#6366F1] mono">SHA-256: 3b7c...f8e1</div>
+              </div>
+            </div>
+            <span class="px-1.5 py-0.5 rounded bg-[#ECFDF5] text-[#10B981] text-[9px] font-bold">SEALED</span>
+          </div>
+
+          <div class="card-20 p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-[#ECFDF5] text-[#10B981] flex items-center justify-center text-xs">🔑</div>
+              <div>
+                <div class="text-xs font-bold text-[#1E293B]">IQOO_BRIDGE_SYNC <span class="text-[10px] font-normal text-[#64748B]">14:17:15</span></div>
+                <div class="text-[11px] text-[#64748B]">iQOO Office Kit Sentinel Tunnel synced 48 audit blocks.</div>
+                <div class="text-[10px] font-medium text-[#6366F1] mono">SHA-256: e501...a90d</div>
+              </div>
+            </div>
+            <span class="px-1.5 py-0.5 rounded bg-[#ECFDF5] text-[#10B981] text-[9px] font-bold">SEALED</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- BOTTOM MATERIAL 3 NAVIGATION BAR -->
+    <nav class="absolute bottom-0 left-0 right-0 h-[72px] bg-white border-t border-[#E2E8F0] px-4 flex items-center justify-around z-30 shadow-lg">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-[#10B981] transition">
+        <span class="text-lg">🛡️</span>
+        <span class="text-[10px] font-bold">My Shield</span>
+      </button>
+
+      <button onclick="switchTab('access-gate')" id="nav-access-gate" class="flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-[#64748B] hover:text-[#1E293B] transition">
+        <span class="text-lg">🔐</span>
+        <span class="text-[10px] font-medium">Gate</span>
+      </button>
+
+      <button onclick="switchTab('sentinel')" id="nav-sentinel" class="flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-[#64748B] hover:text-[#1E293B] transition">
+        <span class="text-lg">🧠</span>
+        <span class="text-[10px] font-medium">Sentinel</span>
+      </button>
+
+      <button onclick="switchTab('sync')" id="nav-sync" class="flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-[#64748B] hover:text-[#1E293B] transition">
+        <span class="text-lg">⚡</span>
+        <span class="text-[10px] font-medium">Sync Bridge</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- MODAL: ENCRYPT NEW SECRET FILE -->
+  <div id="modal-encrypt" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+    <div class="bg-white max-w-sm w-full rounded-3xl p-6 shadow-2xl space-y-4 border border-[#E2E8F0]">
+      <div class="flex items-center justify-between pb-2 border-b border-[#E2E8F0]">
+        <h3 class="text-base font-bold text-[#1E293B]">Encrypt New Secret File</h3>
+        <button onclick="closeModals()" class="text-gray-400 hover:text-gray-600 font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-[11px] font-bold text-[#64748B] block mb-1">File Name</label>
+          <input type="text" id="input-filename" placeholder="strategic_brief.enc" class="w-full px-3 py-2 text-xs border border-[#E2E8F0] rounded-xl focus:outline-[#10B981]" />
+        </div>
+        <div>
+          <label class="text-[11px] font-bold text-[#64748B] block mb-1">Secret Content</label>
+          <textarea id="input-payload" placeholder="Top secret air-gapped notes..." rows="3" class="w-full px-3 py-2 text-xs border border-[#E2E8F0] rounded-xl focus:outline-[#10B981]"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeModals()" class="px-3 py-1.5 rounded-xl border border-[#E2E8F0] text-xs font-semibold text-[#64748B]">Cancel</button>
+        <button onclick="submitNewEncryptedFile()" class="px-4 py-1.5 rounded-xl bg-[#10B981] text-white text-xs font-bold">Lock in Hardware</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LAPTOP SENTINEL CONSOLE (PORT 8888 SIMULATION) -->
+  <div id="modal-console" class="fixed inset-0 bg-black/70 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+    <div class="bg-[#0B0F19] max-w-3xl w-full rounded-3xl p-6 shadow-2xl space-y-4 border border-[#1E293B] text-[#F8FAFC]">
+      <div class="flex items-center justify-between pb-3 border-b border-[#1E293B]">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">💻</span>
+          <div>
+            <h3 class="text-base font-bold text-white">Laptop Sentinel Console</h3>
+            <span class="text-[11px] text-[#94A3B8]">http://localhost:8888 • iQOO Office Kit USB 3.2 Air-Gapped Tunnel</span>
+          </div>
+        </div>
+        <button onclick="closeModals()" class="text-gray-400 hover:text-white font-bold text-xl">✕</button>
+      </div>
+
+      <div class="grid grid-cols-4 gap-3 text-center">
+        <div class="bg-[#111827] p-3 rounded-2xl border border-[#1F2937]">
+          <div class="text-[10px] text-[#94A3B8] font-bold">RISK SCORE</div>
+          <div class="text-xl font-bold text-[#34D399]">0.02 (Low)</div>
+        </div>
+        <div class="bg-[#111827] p-3 rounded-2xl border border-[#1F2937]">
+          <div class="text-[10px] text-[#94A3B8] font-bold">PHY SPEED</div>
+          <div class="text-xl font-bold text-[#818CF8]">480 Mbps</div>
+        </div>
+        <div class="bg-[#111827] p-3 rounded-2xl border border-[#1F2937]">
+          <div class="text-[10px] text-[#94A3B8] font-bold">PACKETS SYNCED</div>
+          <div class="text-xl font-bold text-[#F8FAFC]">14,280</div>
+        </div>
+        <div class="bg-[#111827] p-3 rounded-2xl border border-[#1F2937]">
+          <div class="text-[10px] text-[#94A3B8] font-bold">WAN SOCKETS</div>
+          <div class="text-xl font-bold text-[#34D399]">0 (Airgap)</div>
+        </div>
+      </div>
+
+      <div class="bg-[#111827] p-4 rounded-2xl border border-[#1F2937]">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-bold text-white">Real-Time Tamper-Proof Audit Feed (SQLCipher HMAC-SHA256)</span>
+          <span class="text-[10px] text-[#34D399] font-bold">● CHAIN INTEGRITY VERIFIED</span>
+        </div>
+        <div class="space-y-1.5 text-xs text-[#CBD5E1]">
+          <div class="flex justify-between p-2 rounded bg-black/30 font-mono text-[11px]">
+            <span>14:21:05 [AIR_GAP_CHECK] Baseband isolated. 0 packets.</span>
+            <span class="text-[#818CF8]">9f83...4a12 [SEALED]</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-black/30 font-mono text-[11px]">
+            <span>14:19:40 [NPU_INFERENCE] Snapdragon NPU score 0.02.</span>
+            <span class="text-[#818CF8]">3b7c...f8e1 [SEALED]</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-black/30 font-mono text-[11px]">
+            <span>14:17:15 [IQOO_BRIDGE_SYNC] Synced 48 blocks via USB 3.2.</span>
+            <span class="text-[#818CF8]">e501...a90d [SEALED]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center pt-1">
+        <span class="text-xs text-[#94A3B8]">Connected via 'adb reverse tcp:8888 tcp:8888'</span>
+        <button onclick="alert('Remote emergency lockdown executed on phone! Volatile buffers wiped.'); closeModals(); revokeVoiceAction();" class="px-4 py-2 rounded-xl bg-[#E11D48] text-white text-xs font-bold hover:bg-[#BE123C] transition">
+          Execute Emergency Lockdown
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: 60-90s VIDEO SCRIPT -->
+  <div id="modal-walkthrough" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+    <div class="bg-white max-w-xl w-full rounded-3xl p-6 shadow-2xl space-y-4 border border-[#E2E8F0]">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🎬</span>
+          <h3 class="text-lg font-bold text-[#1E293B]">60–90 Second Video Walkthrough Guide</h3>
+        </div>
+        <button onclick="closeModals()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">×</button>
+      </div>
+
+      <div class="text-xs text-[#64748B] space-y-3 max-h-[440px] overflow-y-auto pr-1">
+        <div class="p-3 rounded-xl bg-[#ECFDF5] border border-[#10B981]/30">
+          <span class="font-bold text-[#10B981] block mb-1">PART 1: AIRPLANE MODE & CODE ARCHITECTURE (0:00 - 0:25)</span>
+          <p class="text-[#1E293B]">
+            • Point to the Android Studio project structure: <code class="mono font-semibold">suraksha_kavach/</code> with Jetpack Compose & Material 3.<br>
+            • Highlight <code class="mono">AndroidManifest.xml</code> showing that <code class="mono text-[#F43F5E]">android.permission.INTERNET</code> is completely omitted.<br>
+            • Show device running in <strong>Airplane Mode</strong> with the persistent <strong>"Air-Gapped | 0 Outbound Requests"</strong> badge active.
+          </p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-[#EEF2FF] border border-[#6366F1]/30">
+          <span class="font-bold text-[#6366F1] block mb-1">PART 2: HARDWARE VAULT & 3-FACTOR GATE (0:25 - 0:55)</span>
+          <p class="text-[#1E293B]">
+            • Demonstrate tapping the key to decrypt <code class="mono">defense_cad_blueprints.enc</code> in volatile RAM using hardware AES-256-GCM.<br>
+            • Switch to <strong>Screen 2 (Access Gate)</strong>: Run through CameraX QR target, Biometric verification, and localized <strong>Haversine GPS boundary check</strong> (8.4m within perimeter).
+          </p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-[#FEF3C7] border border-[#F59E0B]/30">
+          <span class="font-bold text-[#F59E0B] block mb-1">PART 3: SNAPDRAGON NPU & VOICE OVERRIDE (0:55 - 1:15)</span>
+          <p class="text-[#1E293B]">
+            • Highlight <strong>Risk Score: 0.02 (Low)</strong> from the local Snapdragon NPU Int8 quantized model.<br>
+            • Trigger the hands-free offline Text-to-Speech prompt: <em>"Unusual access detected. Confirm or Revoke?"</em> and test the voice trigger buttons.
+          </p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0]">
+          <span class="font-bold text-[#1E293B] block mb-1">PART 4: iQOO OFFICE KIT SENTINEL TUNNEL (1:15 - 1:30)</span>
+          <p class="text-[#1E293B]">
+            • Switch to <strong>Screen 4 (Sync Bridge)</strong>: Highlight the <strong>iQOO Office Kit Sentinel Tunnel</strong> local USB 3.2 link (480 Mbps) to the Laptop Sentinel Console on port 8888.<br>
+            • Show the tamper-proof SQLCipher audit trail sealed with HMAC-SHA256 signatures.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModals()" class="px-4 py-2 rounded-xl bg-[#1E293B] text-white text-xs font-semibold">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CODEBASE ARCHITECTURE -->
+  <div id="modal-architecture" class="fixed inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+    <div class="bg-white max-w-xl w-full rounded-3xl p-6 shadow-2xl space-y-4 border border-[#E2E8F0]">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">📂</span>
+          <h3 class="text-lg font-bold text-[#1E293B]">Project Directory Structure</h3>
+        </div>
+        <button onclick="closeModals()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">×</button>
+      </div>
+
+      <div class="bg-[#0F172A] text-emerald-400 p-4 rounded-2xl text-[11px] mono overflow-x-auto max-h-[420px]">
+        <pre>suraksha_kavach/
+├── app/
+│   ├── build.gradle.kts (Compose BOM, M3, CameraX, Biometric, Crypto)
+│   └── src/main/
+│       ├── AndroidManifest.xml (Zero Internet Permissions!)
+│       ├── res/values/ (colors.xml, strings.xml, themes.xml)
+│       └── java/com/suraksha/kavach/
+│           ├── MainActivity.kt (FragmentActivity & NavHost)
+│           ├── ui/
+│           │   ├── theme/ (Color.kt, Shape.kt [20dp], Type.kt, Theme.kt)
+│           │   ├── components/
+│           │   │   ├── AirGappedHeroBadge.kt ("Air-Gapped | 0 Outbound Requests")
+│           │   │   ├── KavachCard.kt (20dp Rounded Surface, #FFFFFF, #E2E8F0)
+│           │   │   ├── RiskScoreMeter.kt (0.02 Risk Score Gauge)
+│           │   │   ├── VerificationStepCard.kt (3-Factor Multi-Modal Steps)
+│           │   │   ├── VoiceInteractionCard.kt (TTS Alert & Confirm/Revoke)
+│           │   │   ├── CameraXPreviewView.kt (ProcessCameraProvider binding)
+│           │   │   └── SyncBridgeCard.kt (iQOO Office Kit Sentinel Tunnel)
+│           │   └── screens/
+│           │       ├── DashboardScreen.kt (Screen 1: "My Shield")
+│           │       ├── AccessGateScreen.kt (Screen 2: 3-Factor Gate)
+│           │       ├── ThreatSentinelScreen.kt (Screen 3: AI Threat Sentinel)
+│           │       └── SyncBridgeScreen.kt (Screen 4: iQOO Office Kit Tunnel)
+│           ├── viewmodel/
+│           │   └── SurakshaViewModel.kt (UDF StateFlows)
+│           ├── server/
+│           │   └── SentinelHttpServer.kt (Embedded local HTTP server on port 8888)
+│           ├── security/
+│           │   ├── CryptoManager.kt (AES-256-GCM Hardware KeyStore & File I/O)
+│           │   ├── GeoFenceCalculator.kt (Pure Kotlin Haversine Formula)
+│           │   ├── BiometricAuthManager.kt (Native Android BiometricPrompt)
+│           │   ├── VoiceSecurityController.kt (Real Android TextToSpeech)
+│           │   └── ThreatEngine.kt (Dynamic hardware sensory anomaly evaluation)
+│           └── data/
+│               ├── db/AuditDatabaseHelper.kt (Cryptographic SHA-256 hash-chaining)
+│               └── model/ (VaultItem, AccessGateState, SentinelTelemetry, AuditLog)</pre>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModals()" class="px-4 py-2 rounded-xl bg-[#1E293B] text-white text-xs font-semibold">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    function switchTab(tabId) {
+      const screens = ['dashboard', 'access-gate', 'sentinel', 'sync'];
+      screens.forEach(s => {
+        document.getElementById(`screen-${s}`).classList.add('hidden');
+        const navBtn = document.getElementById(`nav-${s}`);
+        navBtn.classList.remove('text-[#10B981]', 'font-bold');
+        navBtn.classList.add('text-[#64748B]');
+      });
+
+      document.getElementById(`screen-${tabId}`).classList.remove('hidden');
+      const activeNav = document.getElementById(`nav-${tabId}`);
+      activeNav.classList.remove('text-[#64748B]');
+      activeNav.classList.add('text-[#10B981]', 'font-bold');
+    }
+
+    function toggleVaultItem(id) {
+      const preview = document.getElementById(`vault-preview-${id}`);
+      const card = document.getElementById(`vault-card-${id}`);
+      const icon = document.getElementById(`vault-icon-${id}`);
+      const isHidden = preview.classList.contains('hidden');
+
+      if (isHidden) {
+        preview.classList.remove('hidden');
+        card.classList.add('border-[#10B981]/40');
+        icon.classList.remove('bg-[#EEF2FF]', 'text-[#6366F1]');
+        icon.classList.add('bg-[#ECFDF5]', 'text-[#10B981]');
+        icon.innerText = '🔓';
+      } else {
+        preview.classList.add('hidden');
+        card.classList.remove('border-[#10B981]/40');
+        icon.classList.add('bg-[#EEF2FF]', 'text-[#6366F1]');
+        icon.classList.remove('bg-[#ECFDF5]', 'text-[#10B981]');
+        icon.innerText = '🔒';
+      }
+    }
+
+    // Dynamic New File Encryption Simulation
+    let customFileIdx = 4;
+    function submitNewEncryptedFile() {
+      const name = document.getElementById('input-filename').value.trim() || 'classified_record.enc';
+      const payload = document.getElementById('input-payload').value.trim() || 'Hardware-locked intelligence payload.';
+
+      const container = document.getElementById('vault-items-container');
+      const id = customFileIdx++;
+
+      const newCard = document.createElement('div');
+      newCard.className = 'card-20 p-3.5 transition-all';
+      newCard.id = `vault-card-${id}`;
+      newCard.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div id="vault-icon-${id}" class="w-9 h-9 rounded-xl bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-sm font-bold">
+              🔒
+            </div>
+            <div>
+              <div class="text-xs font-bold text-[#1E293B]">${name}</div>
+              <div class="text-[10px] text-[#64748B] flex items-center gap-1.5">
+                <span>12.4 KB</span> • <span class="text-[#6366F1] font-medium">HWKEY_CUSTOM_AES256</span>
+              </div>
+            </div>
+          </div>
+          <button onclick="toggleVaultItem(${id})" class="w-8 h-8 rounded-full bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-[#ECFDF5] hover:text-[#10B981] flex items-center justify-center text-xs transition">
+            🔑
+          </button>
+        </div>
+        <div id="vault-preview-${id}" class="hidden mt-2.5 p-2 rounded-xl bg-[#ECFDF5] border border-[#10B981]/25 text-[11px] text-[#1E293B]">
+          <span class="text-[9px] font-bold text-[#10B981] uppercase block mb-0.5">Decrypted in Isolated Volatile RAM:</span>
+          ${payload}
+        </div>
+      `;
+
+      container.prepend(newCard);
+      document.getElementById('vault-count-badge').innerText = `${customFileIdx - 1} Protected Files`;
+      closeModals();
+      alert(`File "${name}" encrypted with AES-256-GCM hardware key and saved to internal storage!`);
+    }
+
+    // 3-Factor Multi-Modal Gate Verification
+    let factorsVerified = [false, false, false];
+
+    function verifyFactor(step) {
+      const idx = step - 1;
+      const btn = document.getElementById(`btn-factor-${step}`);
+      const badge = document.getElementById(`step-badge-${step}`);
+      const card = document.getElementById(`step-card-${step}`);
+
+      btn.disabled = true;
+      btn.innerText = 'Verifying in hardware...';
+      badge.innerText = 'Verifying...';
+      badge.className = 'px-2 py-0.5 rounded-full bg-[#EEF2FF] text-[#6366F1] text-[10px] font-bold';
+
+      if (step === 1) {
+        document.getElementById('laser-line').classList.remove('hidden');
+      }
+
+      setTimeout(() => {
+        factorsVerified[idx] = true;
+        btn.innerText = '✓ Verified in Hardware';
+        btn.className = 'w-full py-2.5 rounded-xl bg-[#ECFDF5] text-[#10B981] border border-[#10B981]/30 text-xs font-bold';
+        badge.innerText = 'Verified';
+        badge.className = 'px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#10B981] text-[10px] font-bold';
+        card.classList.add('border-[#10B981]/40');
+
+        updateGateSummary();
+      }, 900);
+    }
+
+    function updateGateSummary() {
+      const verifiedCount = factorsVerified.filter(Boolean).length;
+      document.getElementById('gate-progress-tag').innerText = `VERIFICATION PROGRESS (${verifiedCount} OF 3)`;
+
+      if (verifiedCount === 3) {
+        document.getElementById('gate-progress-tag').className = 'text-[10px] font-bold text-[#10B981] uppercase tracking-wider';
+        document.getElementById('gate-progress-tag').innerText = 'GATE FULLY UNLOCKED';
+        document.getElementById('gate-progress-title').innerText = 'Hardware Vault Token Granted';
+        document.getElementById('gate-lock-icon').innerText = '🔓';
+        document.getElementById('gate-lock-icon').className = 'w-10 h-10 rounded-full bg-[#ECFDF5] text-[#10B981] flex items-center justify-center text-lg';
+        document.getElementById('gate-summary-card').className = 'card-20 p-4 border-[#10B981]/50';
+      }
+    }
+
+    function resetAccessGate() {
+      factorsVerified = [false, false, false];
+      for (let step = 1; step <= 3; step++) {
+        const btn = document.getElementById(`btn-factor-${step}`);
+        const badge = document.getElementById(`step-badge-${step}`);
+        const card = document.getElementById(`step-card-${step}`);
+        btn.disabled = false;
+        btn.className = 'w-full py-2.5 rounded-xl bg-[#6366F1] text-white text-xs font-semibold hover:bg-[#4F46E5] transition shadow-xs';
+        badge.innerText = 'Pending';
+        badge.className = 'px-2 py-0.5 rounded-full bg-[#F1F5F9] text-[#64748B] text-[10px] font-bold';
+        card.classList.remove('border-[#10B981]/40');
+      }
+      document.getElementById('btn-factor-1').innerText = 'Start CameraX QR Scan';
+      document.getElementById('btn-factor-2').innerText = 'Scan Fingerprint (BiometricPrompt)';
+      document.getElementById('btn-factor-3').innerText = 'Compute Haversine Perimeter';
+      document.getElementById('laser-line').classList.add('hidden');
+
+      document.getElementById('gate-progress-tag').className = 'text-[10px] font-bold text-[#6366F1] uppercase tracking-wider';
+      document.getElementById('gate-progress-tag').innerText = 'VERIFICATION PROGRESS (0 OF 3)';
+      document.getElementById('gate-progress-title').innerText = 'Complete all 3 factors to unlock';
+      document.getElementById('gate-lock-icon').innerText = '🔒';
+      document.getElementById('gate-lock-icon').className = 'w-10 h-10 rounded-full bg-[#EEF2FF] text-[#6366F1] flex items-center justify-center text-lg';
+      document.getElementById('gate-summary-card').className = 'card-20 p-4 border-[#6366F1]/30';
+    }
+
+    // Real Web Speech API TTS Audio
+    function playTTSPrompt() {
+      const prompt = "Unusual access detected. Confirm or Revoke?";
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(prompt);
+        utterance.rate = 0.95;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Spoken Audio: "Unusual access detected. Confirm or Revoke?"');
+      }
+    }
+
+    function confirmVoiceAction() {
+      document.getElementById('voice-bubble-label').innerText = 'Voice Command Authenticated:';
+      document.getElementById('voice-bubble-label').className = 'text-[10px] font-bold text-[#10B981] block';
+      document.getElementById('voice-bubble-text').innerText = 'Operator identity confirmed by voice challenge.';
+      document.getElementById('voice-card').className = 'card-20 p-4 border-[#10B981]/50 space-y-3';
+    }
+
+    function revokeVoiceAction() {
+      document.getElementById('voice-bubble-label').innerText = 'Access Revoked & Tokens Purged:';
+      document.getElementById('voice-bubble-label').className = 'text-[10px] font-bold text-[#F43F5E] block';
+      document.getElementById('voice-bubble-text').innerText = 'Emergency lockdown executed. All session tokens invalidated.';
+      document.getElementById('voice-card').className = 'card-20 p-4 border-[#F43F5E]/50 space-y-3';
+      document.getElementById('main-risk-score').innerText = '0.89';
+    }
+
+    // iQOO Office Kit Tunnel Toggle Medium
+    let isUsb = true;
+    function toggleSyncMedium() {
+      isUsb = !isUsb;
+      const speed = document.getElementById('sync-speed');
+      const label = document.getElementById('sync-medium-label');
+      const icon = document.getElementById('sync-medium-icon');
+      const btn = document.getElementById('btn-toggle-label');
+
+      if (isUsb) {
+        speed.innerText = '480 Mbps';
+        label.innerText = 'USB 3.2 Gen 2';
+        icon.innerText = '🔌';
+        btn.innerText = 'Switch to Wi-Fi Direct';
+      } else {
+        speed.innerText = '120 Mbps';
+        label.innerText = 'Wi-Fi Direct P2P';
+        icon.innerText = '📶';
+        btn.innerText = 'Switch to USB 3.2';
+      }
+    }
+
+    // Modals
+    function openEncryptModal() {
+      document.getElementById('modal-encrypt').classList.remove('hidden');
+      document.getElementById('modal-encrypt').classList.add('flex');
+    }
+    function openConsoleModal() {
+      document.getElementById('modal-console').classList.remove('hidden');
+      document.getElementById('modal-console').classList.add('flex');
+    }
+    function openWalkthroughModal() {
+      document.getElementById('modal-walkthrough').classList.remove('hidden');
+      document.getElementById('modal-walkthrough').classList.add('flex');
+    }
+    function openArchitectureModal() {
+      document.getElementById('modal-architecture').classList.remove('hidden');
+      document.getElementById('modal-architecture').classList.add('flex');
+    }
+    function closeModals() {
+      document.getElementById('modal-encrypt').classList.add('hidden');
+      document.getElementById('modal-encrypt').classList.remove('flex');
+      document.getElementById('modal-console').classList.add('hidden');
+      document.getElementById('modal-console').classList.remove('flex');
+      document.getElementById('modal-walkthrough').classList.add('hidden');
+      document.getElementById('modal-walkthrough').classList.remove('flex');
+      document.getElementById('modal-architecture').classList.add('hidden');
+      document.getElementById('modal-architecture').classList.remove('flex');
+    }
+
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('phone-clock').innerText = `${hrs}:${mins}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>

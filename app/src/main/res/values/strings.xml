@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Suraksha Kavach</string>
+    <string name="air_gapped_status">Air-Gapped | 0 Outbound Requests</string>
+    <string name="npu_active">Snapdragon NPU Active</string>
+    <string name="shield_health">Shield Health</string>
+    <string name="iqoo_office_kit_tunnel">iQOO Office Kit Sentinel Tunnel</string>
+</resources>
